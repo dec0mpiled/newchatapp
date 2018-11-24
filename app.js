@@ -7,7 +7,7 @@ var hbs = require('hbs');
 var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var app = express();
-app.set('port', process.env.PORT || 4000);
+app.set('port', process.env.PORT || 80);
 var server = app.listen(app.get('port'), function() {
 	// log a message to console!
     console.error('Port at 4k');
