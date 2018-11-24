@@ -7,7 +7,7 @@ var hbs = require('hbs');
 var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var app = express();
-var server = app.listen(process.env.PORT);
+var server = app.listen(80);
 var io = require('socket.io').listen(server);
 
 
