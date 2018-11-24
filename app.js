@@ -7,8 +7,8 @@ var hbs = require('hbs');
 var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var app = express();
-var server = app.listen(80);
-var io = require('socket.io').listen(app);
+var server = app.listen(process.env.PORT || 5000);
+var io = require('socket.io').listen(server);
 
 
 var Message = mongoose.model('Message',{ name : String, message : String});
