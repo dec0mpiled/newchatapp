@@ -7,7 +7,8 @@ var hbs = require('hbs');
 var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var app = express();
-var server = app.listen(80);
+var server = require('http').createServer();
+var port = process.env.PORT || 3000;
 var io = require('socket.io').listen(server);
 
 
@@ -52,6 +53,10 @@ app.post('/messages', (req, res) => {
 
 io.on('connection', function(client) {  
     console.log('Client connected or page refreshed..');
+});
+
+server.listen(port, function() {
+  console.log('Listening on ' + port);
 });
 
 module.exports = app;
