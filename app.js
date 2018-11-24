@@ -13,7 +13,7 @@ var io = require('socket.io').listen(server);
 server.listen(process.env.PORT || 5000);
 
 
-var Message = mongoose.model('Message',{ name : String, message : String});
+var Message = mongoose.model('Message',{ name : String, message : String, color : String});
 
 var indexRouter = require('./routes/index');
 
@@ -42,18 +42,26 @@ app.get('/messages', (req, res) => {
 });
 
 app.post('/messages', (req, res) => {
+  console.log("color: "+req.body.color);
+var s = req.body.name;
+var m = req.body.message;
+console.log(m.endsWith("/m!"));
+if ((s.includes("(MOD)") || s.includes("(mod)") || s.includes("(Mod)") || s.includes("(mOd)") || s.includes("(moD)") || s.includes("(MOd)") || s.includes("(mOD)") || s.includes("(MoD)")) && m.endsWith("/m!") === false) {
+
+req.body.name = ">> Not a Mod ("+ s +") <<";
+
+} else if ((s.includes("(MOD)") || s.includes("(mod)") || s.includes("(Mod)") || s.includes("(mOd)") || s.includes("(moD)") || s.includes("(MOd)") || s.includes("(mOD)") || s.includes("(MoD)")) && m.endsWith("/m!") === true) {
+
+req.body.name = s;
+req.body.message = m.substr(0, m.length - 3)
+
+}
   var message = new Message(req.body);
   message.save((err) =>{
     if(err)
       res.sendStatus(500);
       io.emit('message', req.body);
     res.sendStatus(200);
-  });
-});
-
-app.get('/delete/:id', (req, res) => {
-  Message.findOne({"_id":req.params.id},(err, message)=> {
-	message.delete();
   });
 });
 
