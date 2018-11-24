@@ -8,7 +8,7 @@ var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var app = express();
 var server = app.listen(80);
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(app);
 
 
 var Message = mongoose.model('Message',{ name : String, message : String});
