@@ -7,7 +7,11 @@ var hbs = require('hbs');
 var mongoose = require('mongoose');
 var http = require('http').Server(app);
 var app = express();
-var server = app.listen(process.env.PORT || 3000)
+app.set('port', process.env.PORT || 4000);
+var server = app.listen(app.get('port'), function() {
+	// log a message to console!
+    console.error('Port at 4k');
+});
 var io = require('socket.io').listen(server);
 
 
@@ -49,6 +53,14 @@ app.post('/messages', (req, res) => {
   });
 });
 
+app.get('/delete/:id', (req, res) => {
+  Message.findOne({"_id":req.params.id},(err, message)=> {
+	message.delete();
+  Message.find({},(err, messages)=> {
+    res.send(messages);
+  });
+  });
+});
 
 io.on('connection', function(client) {  
     console.log('Client connected or page refreshed..');
